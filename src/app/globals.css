@@ -1,26 +1,694 @@
+/* Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap");
 @import "tailwindcss";
+@import "@heroui/styles";
+
+/* ============================================
+   CARVÕ — DESIGN SYSTEM
+   Obsidian & Champagne Gold Philosophy
+   ============================================ */
+
+/* ============================================
+   CSS CUSTOM PROPERTIES — THEME TOKENS
+   ============================================ */
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* --- DARK MODE (Default) "Obsidian Night" --- */
+  --color-bg: #0c0c0e;
+  --color-bg-card: #1c1b17;
+  --color-border: #2e2a22;
+  --color-text-head: #f0ead6;
+  --color-text-body: #a89f91;
+  --color-text-muted: #6b6450;
+  --color-gold: #b8a06a;
+  --color-cta-bg: #b8a06a;
+  --color-cta-text: #0c0c0e;
+
+  /* --- SHARED --- */
+  --color-gold-raw: 180, 160, 106; /* for rgba() usage */
+
+  /* --- SPACING SCALE (4px base, 8x) --- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+  --space-30: 120px;
+
+  /* --- TYPOGRAPHY --- */
+  --font-display: var(--font-cormorant), Georgia, serif;
+  --font-interface: var(--font-dm-sans), system-ui, sans-serif;
+
+  --text-hero: clamp(40px, 6vw, 64px);
+  --text-h2: clamp(28px, 4vw, 40px);
+  --text-h3: 18px;
+  --text-body: 15px;
+  --text-caption: 11px;
+
+  /* --- BORDER RADIUS --- */
+  --radius-card: 12px;
+  --radius-input: 12px;
+  --radius-sharp: 0px;
+
+  /* --- TRANSITIONS --- */
+  --transition-fast: 0.15s ease;
+  --transition-base: 0.3s ease;
+  --transition-slow: 0.5s ease;
+
+  /* --- NAVBAR --- */
+  --navbar-height: 72px;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ============================================
+   LIGHT MODE OVERRIDES "Alabaster Day"
+   ============================================ */
+
+[data-theme="light"] {
+  --color-bg: #fafaf8;
+  --color-bg-card: #f2ede2;
+  --color-border: #ddd5c0;
+  --color-text-head: #1a1814;
+  --color-text-body: #4a4540;
+  --color-text-muted: #6b6450;
+  --color-gold: #b8a06a;
+  --color-cta-bg: #1a1814;
+  --color-cta-text: #fafaf8;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ============================================
+   BASE RESET & GLOBAL STYLES
+   ============================================ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text-body);
+  font-family: var(--font-interface);
+  font-size: var(--text-body);
+  font-weight: 400;
+  line-height: 1.6;
+  transition:
+    background-color var(--transition-slow),
+    color var(--transition-slow);
+  min-height: 100vh;
+}
+
+/* ============================================
+   TYPOGRAPHY UTILITY CLASSES
+   ============================================ */
+
+/* Display — Cormorant Garamond */
+.font-display {
+  font-family: var(--font-display);
+}
+.font-interface {
+  font-family: var(--font-interface);
+}
+
+.text-hero {
+  font-family: var(--font-display);
+  font-size: var(--text-hero);
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--color-text-head);
+}
+
+.text-hero-italic {
+  font-family: var(--font-display);
+  font-size: var(--text-hero);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--color-gold);
+}
+
+.text-h2 {
+  font-family: var(--font-display);
+  font-size: var(--text-h2);
+  font-weight: 300;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--color-text-head);
+}
+
+.text-h3 {
+  font-family: var(--font-interface);
+  font-size: var(--text-h3);
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--color-text-head);
+}
+
+.text-body {
+  font-family: var(--font-interface);
+  font-size: var(--text-body);
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--color-text-body);
+}
+
+.text-caption {
+  font-family: var(--font-interface);
+  font-size: var(--text-caption);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+}
+
+.text-head {
+  color: var(--color-text-head);
+}
+.text-muted {
+  color: var(--color-text-muted);
+}
+.text-gold {
+  color: var(--color-gold);
+}
+
+/* ============================================
+   SIGNATURE ELEMENT — GOLD HAIRLINE RULE
+   ============================================ */
+
+.gold-rule {
+  border-bottom: 1px solid var(--color-gold);
+}
+
+.gold-rule-top {
+  border-top: 1px solid var(--color-gold);
+}
+
+/* ============================================
+   LAYOUT UTILITIES
+   ============================================ */
+
+.container-carvo {
+  width: 100%;
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+}
+
+@media (min-width: 768px) {
+  .container-carvo {
+    padding-inline: var(--space-10);
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-carvo {
+    padding-inline: var(--space-16);
+  }
+}
+
+.section-padding {
+  padding-block: var(--space-30);
+}
+
+@media (max-width: 768px) {
+  .section-padding {
+    padding-block: var(--space-20);
+  }
+}
+
+/* ============================================
+   CARD STYLES
+   ============================================ */
+
+.card-carvo {
+  background-color: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  padding: var(--space-8);
+  transition:
+    transform var(--transition-base),
+    border-color var(--transition-base),
+    box-shadow var(--transition-base);
+}
+
+.card-carvo:hover {
+  transform: translateY(-4px) scale(1.02);
+  border-color: var(--color-gold);
+  box-shadow: 0 8px 32px rgba(var(--color-gold-raw), 0.12);
+}
+
+/* Car card — image fills top 60% */
+.car-card {
+  background-color: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  transition:
+    transform var(--transition-base),
+    border-color var(--transition-base),
+    box-shadow var(--transition-base);
+  display: flex;
+  flex-direction: column;
+}
+
+.car-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  border-color: var(--color-gold);
+  box-shadow: 0 8px 32px rgba(var(--color-gold-raw), 0.12);
+}
+
+.car-card__image {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  background-color: #1c1b17; /* always dark, even in light mode */
+}
+
+.car-card__body {
+  padding: var(--space-6);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* ============================================
+   BUTTON STYLES
+   ============================================ */
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  background-color: var(--color-cta-bg);
+  color: var(--color-cta-text);
+  font-family: var(--font-interface);
+  font-size: var(--text-body);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  padding: var(--space-4) var(--space-8);
+  border-radius: var(--radius-card);
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    opacity var(--transition-base),
+    transform var(--transition-fast);
+  white-space: nowrap;
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+}
+
+.btn-primary:active {
+  transform: scale(0.97);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  background-color: transparent;
+  color: var(--color-text-head);
+  font-family: var(--font-interface);
+  font-size: var(--text-body);
+  font-weight: 400;
+  padding: var(--space-4) var(--space-8);
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-border);
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    border-color var(--transition-base),
+    color var(--transition-base),
+    transform var(--transition-fast);
+  white-space: nowrap;
+}
+
+.btn-ghost:hover {
+  border-color: var(--color-gold);
+  color: var(--color-gold);
+}
+
+.btn-ghost:active {
+  transform: scale(0.97);
+}
+
+/* ============================================
+   FORM INPUT STYLES
+   ============================================ */
+
+.input-carvo {
+  width: 100%;
+  background-color: var(--color-bg-card);
+  color: var(--color-text-head);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-input);
+  padding: var(--space-4) var(--space-5);
+  font-family: var(--font-interface);
+  font-size: var(--text-body);
+  font-weight: 300;
+  outline: none;
+  transition: border-color var(--transition-base);
+}
+
+.input-carvo::placeholder {
+  color: var(--color-text-muted);
+}
+
+.input-carvo:focus {
+  border-color: var(--color-gold);
+}
+
+.label-carvo {
+  display: block;
+  font-family: var(--font-interface);
+  font-size: var(--text-caption);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  margin-bottom: var(--space-2);
+}
+
+/* ============================================
+   NAVBAR
+   ============================================ */
+
+.navbar-carvo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--navbar-height);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  transition:
+    background-color var(--transition-base),
+    border-color var(--transition-base),
+    backdrop-filter var(--transition-base);
+}
+
+.navbar-carvo.scrolled {
+  background-color: var(--color-bg);
+  border-bottom: 1px solid var(--color-gold);
+}
+
+/* ============================================
+   SECTION DIVIDER
+   ============================================ */
+
+.section-divider {
+  width: 100%;
+  height: 1px;
+  background-color: var(--color-border);
+}
+
+.section-divider--gold {
+  background-color: var(--color-gold);
+}
+
+/* ============================================
+   BADGE / TAG
+   ============================================ */
+
+.badge-carvo {
+  display: inline-flex;
+  align-items: center;
+  background-color: rgba(var(--color-gold-raw), 0.12);
+  color: var(--color-gold);
+  border: 1px solid rgba(var(--color-gold-raw), 0.3);
+  border-radius: 4px;
+  padding: 2px var(--space-3);
+  font-size: var(--text-caption);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ============================================
+   ERROR STATE
+   ============================================ */
+
+:root {
+  --color-error: #c2604a;
+}
+
+.text-error {
+  color: var(--color-error);
+}
+
+.input-carvo.input-error {
+  border-color: var(--color-error);
+}
+
+/* ============================================
+   AUTH — DIVIDER ("or continue with")
+   ============================================ */
+
+.divider-or {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  width: 100%;
+}
+
+.divider-or::before,
+.divider-or::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background-color: var(--color-border);
+}
+
+.divider-or span {
+  font-family: var(--font-interface);
+  font-size: var(--text-caption);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+/* ============================================
+   AUTH — GOOGLE BUTTON
+   ============================================ */
+
+.btn-google {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  width: 100%;
+  background-color: var(--color-bg-card);
+  color: var(--color-text-head);
+  font-family: var(--font-interface);
+  font-size: var(--text-body);
+  font-weight: 500;
+  padding: var(--space-4) var(--space-8);
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-border);
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    border-color var(--transition-base),
+    transform var(--transition-fast);
+  white-space: nowrap;
+}
+
+.btn-google:hover {
+  border-color: var(--color-gold);
+}
+
+.btn-google:active {
+  transform: scale(0.97);
+}
+
+/* ============================================
+   AUTH — PASSWORD TOGGLE
+   ============================================ */
+
+.input-wrapper-carvo {
+  position: relative;
+  width: 100%;
+}
+
+.input-wrapper-carvo .input-carvo {
+  padding-right: var(--space-12);
+}
+
+.password-toggle-btn {
+  position: absolute;
+  right: var(--space-4);
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  transition: color var(--transition-base);
+  padding: var(--space-1);
+}
+
+.password-toggle-btn:hover {
+  color: var(--color-gold);
+}
+
+/* ============================================
+   AUTH — SPLIT LAYOUT
+   ============================================ */
+
+.auth-shell {
+  min-height: 100vh;
+  display: flex;
+}
+
+.auth-brand-panel {
+  display: none;
+  position: relative;
+  overflow: hidden;
+  width: 45%;
+  background-color: var(--color-bg);
+  border-right: 1px solid var(--color-border);
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--space-16);
+}
+.auth-brand-image {
+  object-fit: cover;
+  object-position: center 30%;
+  z-index: 0;
+}
+
+.auth-brand-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    100deg,
+    rgba(12, 12, 14, 0.97) 0%,
+    rgba(12, 12, 14, 0.85) 30%,
+    rgba(12, 12, 14, 0.4) 55%,
+    rgba(12, 12, 14, 0.15) 100%
+  );
+}
+
+.auth-brand-content {
+  position: relative;
+  z-index: 2;
+  max-width: 440px;
+}
+
+.auth-form-panel {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: var(--space-8) var(--space-6);
+  min-height: 100vh;
+}
+
+@media (min-width: 1024px) {
+  .auth-brand-panel {
+    display: flex;
+  }
+  .auth-form-panel {
+    width: 55%;
+    padding: var(--space-16);
+  }
+}
+
+.auth-form-container {
+  width: 100%;
+  max-width: 420px;
+}
+
+.auth-brand-content {
+  max-width: 440px;
+}
+
+/* ============================================
+   LOADING SPINNER
+   ============================================ */
+
+.spinner-carvo {
+  width: 40px;
+  height: 40px;
+  border: 2px solid var(--color-border);
+  border-top-color: var(--color-gold);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ============================================
+   SCROLLBAR
+   ============================================ */
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gold);
+}
+
+/* ============================================
+   SELECTION
+   ============================================ */
+
+::selection {
+  background-color: rgba(var(--color-gold-raw), 0.25);
+  color: var(--color-text-head);
+}
+
+/* ============================================
+   REDUCED MOTION
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }
