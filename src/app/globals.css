@@ -692,3 +692,65 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ============================================
+   STATUS PAGES — 404 / ERROR
+   ============================================ */
+
+.status-page {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: var(--space-8) var(--space-6);
+  text-align: center;
+}
+
+.status-page-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  object-fit: cover;
+  object-position: center 30%;
+  opacity: 0.06;
+}
+
+[data-theme="light"] .status-page-bg {
+  opacity: 0.04;
+}
+
+.status-page-content {
+  position: relative;
+  z-index: 1;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.status-code {
+  font-family: var(--font-display);
+  font-size: clamp(72px, 14vw, 140px);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1;
+  color: var(--color-gold);
+}
+
+.status-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  width: 100%;
+  margin-top: var(--space-10);
+}
+
+@media (min-width: 480px) {
+  .status-actions {
+    flex-direction: row;
+    justify-content: center;
+    width: auto;
+  }
+}
