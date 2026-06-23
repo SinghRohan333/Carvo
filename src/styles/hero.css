@@ -1,0 +1,195 @@
+/* ==========================================================================
+   CARVÕ — HERO SECTION STYLES (TYPOGRAPHY OPTIMIZED)
+   ========================================================================== */
+
+.hero-section {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - var(--navbar-height));
+  overflow: hidden;
+  background-color: var(--color-bg);
+  transition: background-color var(--transition-slow);
+}
+
+.hero-image-wrapper {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 65% center;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    90deg,
+    var(--color-bg) 0%,
+    rgba(12, 12, 14, 0.9) 30%,
+    rgba(12, 12, 14, 0.5) 65%,
+    transparent 100%
+  );
+  transition: background var(--transition-slow);
+}
+
+[data-theme="light"] .hero-overlay {
+  background: linear-gradient(
+    90deg,
+    var(--color-bg) 0%,
+    rgba(250, 250, 248, 0.95) 30%,
+    rgba(250, 250, 248, 0.55) 65%,
+    transparent 100%
+  );
+}
+
+.hero-content-wrapper {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.hero-text-block {
+  max-width: 720px; /* Slightly widened to prevent awkward small wraps */
+  display: flex;
+  flex-direction: column;
+}
+
+/* ==========================================================================
+   EDITORIAL TYPOGRAPHY CLASSES
+   ========================================================================== */
+
+.hero-editorial-caption {
+  font-family: var(--font-interface);
+  font-size: var(--text-caption);
+  font-weight: 500;
+  letter-spacing: 0.18em; /* Expanded letter spacing for high-end feel */
+  text-transform: uppercase;
+  color: var(--color-gold);
+  margin-bottom: var(--space-5);
+}
+
+.hero-editorial-headline {
+  font-family: var(--font-display);
+  font-size: clamp(38px, 5.5vw, 68px); /* Beautifully responsive sizing */
+  font-weight: 300;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  margin-bottom: var(--space-6);
+}
+
+.hero-editorial-description {
+  font-family: var(--font-interface);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.75; /* Added breathing room for readability */
+  color: var(--color-text-body);
+  opacity: 0.85;
+  max-width: 520px;
+  margin-bottom: var(--space-10);
+}
+
+.hero-cta-btn {
+  padding: var(--space-4) var(--space-10) !important; /* Elegant extended proportions */
+  font-size: 14px !important;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.hero-cta-arrow {
+  transition: transform var(--transition-fast);
+  margin-left: var(--space-2);
+}
+
+.hero-cta-btn:hover .hero-cta-arrow {
+  transform: translateX(4px);
+}
+
+/* Indicators */
+.hero-indicators {
+  position: absolute;
+  bottom: var(--space-10);
+  left: var(--space-6);
+  z-index: 3;
+  display: flex;
+  gap: var(--space-4);
+}
+
+.indicator-bar {
+  width: 48px;
+  height: 2px;
+  background-color: var(--color-border);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.indicator-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: var(--color-gold);
+  transform-origin: left;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN ADAPTATIONS
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  .hero-img {
+    object-position: center center;
+  }
+
+  .hero-overlay {
+    background: linear-gradient(
+      180deg,
+      rgba(12, 12, 14, 0.95) 0%,
+      rgba(12, 12, 14, 0.75) 50%,
+      rgba(12, 12, 14, 0.9) 100%
+    );
+  }
+
+  [data-theme="light"] .hero-overlay {
+    background: linear-gradient(
+      180deg,
+      rgba(250, 250, 248, 0.98) 0%,
+      rgba(250, 250, 248, 0.8) 50%,
+      rgba(250, 250, 248, 0.92) 100%
+    );
+  }
+
+  .hero-text-block {
+    max-width: 100%;
+    text-align: center;
+    align-items: center;
+  }
+
+  .hero-editorial-headline {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .hero-editorial-description {
+    text-align: center;
+    margin-inline: auto;
+  }
+
+  .hero-indicators {
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: var(--space-8);
+  }
+}

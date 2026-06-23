@@ -1,0 +1,85 @@
+/* ============================================
+   WHY CARVÕ — Section Styles
+   src/styles/why-carvo.css
+   ============================================ */
+
+/* Section background alternates from page bg */
+.why-carvo {
+  background-color: var(--color-bg-card);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* ---- Header ---- */
+
+.why-carvo__header {
+  text-align: center;
+  max-width: 560px;
+  margin-inline: auto;
+  margin-bottom: var(--space-16);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.why-carvo__headline {
+  /* Inherits .text-h2 — just ensure no extra margin */
+  margin: 0;
+}
+
+.why-carvo__headline-italic {
+  font-style: italic;
+  color: var(--color-gold);
+  font-weight: 300;
+}
+
+.why-carvo__subtext {
+  color: var(--color-text-muted);
+  max-width: 400px;
+  margin-inline: auto;
+}
+
+/* ---- Cards Grid ---- */
+
+.why-carvo__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+}
+
+@media (min-width: 640px) {
+  .why-carvo__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .why-carvo__grid {
+    gap: var(--space-8);
+  }
+}
+
+/* ---- Individual Card ---- */
+
+/* card-carvo base already handles bg, border, radius, hover —
+   these styles layer on top for internal layout only */
+.why-carvo__card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* Icon — gold tint */
+.why-carvo__icon {
+  color: var(--color-gold);
+  display: flex;
+  align-items: center;
+  width: 28px;
+}
+
+/* Gold hairline rule beneath icon — purposeful, not decorative */
+.why-carvo__icon-rule {
+  width: 32px;
+  /* gold-rule class provides the border-bottom */
+  margin-bottom: var(--space-1);
+}

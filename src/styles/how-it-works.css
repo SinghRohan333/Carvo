@@ -1,0 +1,167 @@
+/* ============================================
+   HOW IT WORKS — Section Styles
+   src/styles/how-it-works.css
+   ============================================ */
+
+/* Section background — back to page bg (alternating rhythm) */
+.how-it-works {
+  background-color: var(--color-bg);
+}
+
+/* ---- Header ---- */
+
+.how-it-works__header {
+  text-align: center;
+  max-width: 520px;
+  margin-inline: auto;
+  margin-bottom: var(--space-16);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.how-it-works__headline-italic {
+  font-style: italic;
+  color: var(--color-gold);
+  font-weight: 300;
+}
+
+.how-it-works__subtext {
+  color: var(--color-text-muted);
+  max-width: 380px;
+  margin-inline: auto;
+}
+
+/* ---- Steps Track (relative container for connector line) ---- */
+
+.how-it-works__track {
+  position: relative;
+}
+
+/* ---- Steps Layout ---- */
+
+.how-it-works__steps {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-12);
+}
+
+@media (min-width: 768px) {
+  .how-it-works__steps {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-8);
+  }
+}
+
+/* ---- Individual Step ---- */
+
+.how-it-works__step {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  position: relative;
+}
+
+/* On mobile: horizontal layout — number left, content right */
+@media (max-width: 767px) {
+  .how-it-works__step {
+    flex-direction: row;
+    gap: var(--space-6);
+    align-items: flex-start;
+  }
+}
+
+/* ---- Number wrap (holds number + connector) ---- */
+
+.how-it-works__number-wrap {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+/* On desktop: number wrap stacks above content — no special flex needed */
+/* On mobile: number wrap is the left column */
+@media (max-width: 767px) {
+  .how-it-works__number-wrap {
+    flex-shrink: 0;
+    padding-top: 2px; /* optical alignment with h3 */
+  }
+}
+
+/* ---- Step Number — editorial, Cormorant italic ---- */
+
+.how-it-works__number {
+  font-family: var(--font-display);
+  font-size: clamp(48px, 5vw, 64px);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1;
+  color: var(--color-gold);
+  opacity: 0.9;
+  display: block;
+  /* subtle text shadow to lift off bg */
+  text-shadow: 0 2px 24px rgba(var(--color-gold-raw), 0.15);
+}
+
+/* ---- Connector line — desktop only, between step numbers ---- */
+
+.how-it-works__connector {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .how-it-works__connector {
+    display: block;
+    position: absolute;
+    /* starts right after the number, ends at next step's number */
+    left: calc(100% + var(--space-4));
+    top: 50%;
+    transform: translateY(-50%);
+    /* width spans from current step edge to next — accounts for grid gap */
+    width: calc(
+      (100vw - 2 * var(--space-16) - 2 * var(--space-8)) / 3 -
+        /* number block width */ 52px + var(--space-8)
+    );
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      rgba(var(--color-gold-raw), 0.35),
+      rgba(var(--color-gold-raw), 0.1)
+    );
+    pointer-events: none;
+  }
+}
+
+/* ---- Step Content ---- */
+
+.how-it-works__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.how-it-works__desc {
+  color: var(--color-text-body);
+  max-width: 280px;
+}
+
+@media (max-width: 767px) {
+  .how-it-works__desc {
+    max-width: none;
+  }
+}
+
+/* ---- Gold top rule on each step (desktop) ---- */
+/* Signals progression — purposeful, not decorative */
+
+@media (min-width: 768px) {
+  .how-it-works__step::before {
+    content: "";
+    display: block;
+    width: 32px;
+    height: 1px;
+    background-color: var(--color-gold);
+    margin-bottom: var(--space-4);
+    opacity: 0.6;
+  }
+}
