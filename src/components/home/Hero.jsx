@@ -149,7 +149,7 @@ export default function Hero() {
               {/* CTA Action Hook */}
               <motion.div variants={contentFadeVariants}>
                 <motion.a
-                  href="/explore"
+                  href="/explore-cars"
                   className="btn-primary hero-cta-btn"
                   whileTap={{ scale: 0.97 }}
                 >

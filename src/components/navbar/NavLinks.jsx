@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 
 const publicLinks = [
   { label: "Home", href: "/" },
-  { label: "Explore Cars", href: "/explore" },
+  { label: "Explore Cars", href: "/explore-cars" },
 ];
 
 const privateLinks = [

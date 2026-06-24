@@ -30,6 +30,7 @@ export default function RootLayout({ children }) {
     <html
       lang="en"
       data-theme="dark"
+      data-scroll-behavior="smooth"
       className={`${cormorant.variable} ${dmSans.variable} h-full antialiased`}
       suppressHydrationWarning
     >
