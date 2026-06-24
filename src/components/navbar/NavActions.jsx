@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "@/context/ThemeContext";
+import Image from "next/image";
 
 function SunIcon() {
   return (
@@ -86,7 +87,8 @@ export default function NavActions({
   mobile = false,
   onLinkClick,
   isLoggedIn, // lifted from Navbar
-  setIsLoggedIn, // lifted from Navbar
+  user,
+  handleLogout,
 }) {
   const { theme, toggleTheme } = useTheme();
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -186,10 +188,7 @@ export default function NavActions({
                 </Link>
               ))}
               <button
-                onClick={() => {
-                  setIsLoggedIn(false);
-                  onLinkClick?.();
-                }}
+                onClick={handleLogout}
                 style={{
                   marginTop: "8px",
                   textAlign: "left",
@@ -310,9 +309,36 @@ export default function NavActions({
                 color: "var(--color-gold)",
               }}
             >
-              <UserIcon />
+              {user?.image ? (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  style={{
+                    width: 26,
+                    height: 26,
+                    borderRadius: "50%",
+                    overflow: "hidden",
+                    border: "1px solid var(--color-gold)",
+                    flexShrink: 0,
+                  }}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={user?.image}
+                    alt="Profile preview"
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                    }}
+                  />
+                </motion.div>
+              ) : (
+                <UserIcon />
+              )}
             </span>
-            <span>My Account</span>
+            <span>{user?.name ? user?.name : "My Account"}</span>
             <motion.span
               animate={{ rotate: dropdownOpen ? 180 : 0 }}
               transition={{ duration: 0.2 }}
@@ -384,8 +410,8 @@ export default function NavActions({
                 />
                 <button
                   onClick={() => {
-                    setIsLoggedIn(false);
                     setDropdownOpen(false);
+                    handleLogout();
                   }}
                   style={{
                     display: "block",

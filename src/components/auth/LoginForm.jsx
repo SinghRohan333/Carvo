@@ -7,11 +7,15 @@ import AuthLayout from "./AuthLayout";
 import AuthDivider from "./AuthDivider";
 import GoogleAuthButton from "./GoogleAuthButton";
 import PasswordInput from "./PasswordInput";
+import { authClient } from "@/lib/auth-client";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -44,9 +48,31 @@ export default function LoginForm() {
 
     setIsSubmitting(true);
     // TODO: replace with BetterAuth sign-in call once Phase 1 is built
-    console.log("Login submitted:", formData);
+    // console.log("Login submitted:", formData);
+    const { email, password } = formData;
+    const { data, error } = await authClient.signIn.email({
+      email,
+      password,
+      rememberMe: true,
+    });
     await new Promise((resolve) => setTimeout(resolve, 1200));
-    setIsSubmitting(false);
+
+    if (error) {
+      toast.error(error?.message || "Login Failed!. Please try again.");
+      return;
+    }
+    if (data) {
+      toast.success("Login successful! Welcome back to CARVÕ");
+      setFormData({
+        name: "",
+        email: "",
+        photoURL: "",
+        password: "",
+      });
+      setErrors({});
+      setIsSubmitting(false);
+      router.push("/");
+    }
   };
 
   const handleGoogleLogin = () => {

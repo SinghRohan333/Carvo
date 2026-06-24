@@ -7,6 +7,9 @@ import AuthLayout from "./AuthLayout";
 import AuthDivider from "./AuthDivider";
 import GoogleAuthButton from "./GoogleAuthButton";
 import PasswordInput from "./PasswordInput";
+import { toast } from "react-toastify";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 export default function RegisterForm() {
   const [formData, setFormData] = useState({
@@ -17,6 +20,7 @@ export default function RegisterForm() {
   });
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -49,10 +53,11 @@ export default function RegisterForm() {
       newErrors.password = "Password must be at least 6 characters";
     } else if (
       !/[A-Z]/.test(formData.password) ||
+      !/[a-z]/.test(formData.password) ||
       !/[0-9]/.test(formData.password)
     ) {
       newErrors.password =
-        "Include at least one uppercase letter and one number";
+        "Include at least one uppercase, one lowercase letter and one number";
     }
     return newErrors;
   };
@@ -65,9 +70,32 @@ export default function RegisterForm() {
 
     setIsSubmitting(true);
     // TODO: replace with BetterAuth sign-up call once Phase 1 is built
-    console.log("Register submitted:", formData);
+    const { name, email, password, photoURL } = formData;
+    const { data, error } = await authClient.signUp.email({
+      name,
+      email,
+      password,
+      image: photoURL,
+    });
+    // console.log("Register submitted:", name);
     await new Promise((resolve) => setTimeout(resolve, 1200));
-    setIsSubmitting(false);
+
+    if (error) {
+      toast.error(error?.message || "Registration Failed!. Please try again.");
+      return;
+    }
+    if (data) {
+      toast.success("Registration successful! Welcome to CARVÕ");
+      setFormData({
+        name: "",
+        email: "",
+        photoURL: "",
+        password: "",
+      });
+      setErrors({});
+      setIsSubmitting(false);
+      router.push("/");
+    }
   };
 
   const handleGoogleRegister = () => {

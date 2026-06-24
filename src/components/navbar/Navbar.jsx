@@ -5,6 +5,9 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import NavLinks from "./NavLinks";
 import NavActions from "./NavActions";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 function Logo() {
   return (
@@ -86,15 +89,41 @@ function HamburgerIcon({ open }) {
     </div>
   );
 }
+function NavActionsSkeleton() {
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+      <div
+        style={{
+          width: "36px",
+          height: "36px",
+          borderRadius: "50%",
+          backgroundColor: "var(--color-bg-card)",
+          border: "1px solid var(--color-border)",
+        }}
+      />
+      <div
+        style={{
+          width: "96px",
+          height: "40px",
+          borderRadius: "var(--radius-card)",
+          backgroundColor: "var(--color-bg-card)",
+          border: "1px solid var(--color-border)",
+        }}
+      />
+    </div>
+  );
+}
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
+  const router = useRouter();
 
-  // ── MOCK auth state — lifted here so both NavLinks & NavActions share it
-  // Replace with real auth context in Phase 1
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { data: session, isPending } = authClient.useSession();
+  const user = session?.user;
+  // console.log(user);
+  const isLoggedIn = !!user;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -122,6 +151,11 @@ export default function Navbar() {
 
   const closeMobile = () => setMobileOpen(false);
 
+  const handleLogout = async () => {
+    await authClient.signOut();
+    toast.success("You have been logged out");
+    router.push("/");
+  };
   return (
     <>
       <motion.header
@@ -157,9 +191,16 @@ export default function Navbar() {
 
           {isDesktop && <NavLinks isLoggedIn={isLoggedIn} />}
 
-          {isDesktop && (
-            <NavActions isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
-          )}
+          {isDesktop &&
+            (isPending ? (
+              <NavActionsSkeleton />
+            ) : (
+              <NavActions
+                isLoggedIn={isLoggedIn}
+                user={user}
+                handleLogout={handleLogout}
+              />
+            ))}
 
           {!isDesktop && (
             <button
@@ -232,12 +273,16 @@ export default function Navbar() {
                 }}
               />
 
-              <NavActions
-                mobile
-                onLinkClick={closeMobile}
-                isLoggedIn={isLoggedIn}
-                setIsLoggedIn={setIsLoggedIn}
-              />
+              {isPending ? (
+                <NavActionsSkeleton />
+              ) : (
+                <NavActions
+                  mobile
+                  onLinkClick={closeMobile}
+                  isLoggedIn={isLoggedIn}
+                  user={user}
+                />
+              )}
             </motion.div>
           </>
         )}
