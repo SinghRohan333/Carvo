@@ -3,6 +3,9 @@ import "./globals.css";
 import { ThemeProvider } from "@/context/ThemeContext";
 import Navbar from "@/components/navbar/Navbar";
 import Footer from "@/components/footer/Footer";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "@/styles/toast-theme.css";
 
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
@@ -44,6 +47,15 @@ export default function RootLayout({ children }) {
             {children}
           </main>
           <Footer />
+          <ToastContainer
+            position="top-right"
+            autoClose={3500}
+            hideProgressBar={false}
+            newestOnTop
+            closeOnClick
+            pauseOnHover
+            theme="dark"
+          />
         </ThemeProvider>
       </body>
     </html>

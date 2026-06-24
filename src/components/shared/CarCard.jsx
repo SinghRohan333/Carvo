@@ -265,7 +265,7 @@ export default function CarCard({ car, index = 0 }) {
 
           {/* View Details button */}
           <Link
-            href={`/cars/${car._id}`}
+            href={`/explore-cars/${car._id}`}
             className="car-card-btn"
             style={{
               display: "inline-flex",

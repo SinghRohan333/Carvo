@@ -22,3 +22,14 @@ export const getAllCars = async (params = {}) => {
   const data = await res.json();
   return data;
 };
+
+export const getCarById = async (id) => {
+  const res = await fetch(`${BASE_URL}/cars/${id}`, {
+    cache: "no-store",
+  });
+  if (!res.ok) {
+    throw new Error("Failed to fetch car details");
+  }
+  const data = await res.json();
+  return data;
+};

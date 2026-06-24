@@ -1,0 +1,113 @@
+.add-car-shell {
+  width: 100%;
+  min-height: calc(100vh - var(--navbar-height));
+  padding: var(--space-20) 0;
+}
+
+.add-car-header {
+  text-align: center;
+  margin-bottom: var(--space-12);
+}
+
+.add-car-form-card {
+  background-color: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  padding: var(--space-8);
+  max-width: 760px;
+  margin-inline: auto;
+}
+
+@media (min-width: 768px) {
+  .add-car-form-card {
+    padding: var(--space-10);
+  }
+}
+
+.add-car-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+}
+
+@media (min-width: 768px) {
+  .add-car-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.add-car-field-full {
+  grid-column: 1 / -1;
+}
+
+.add-car-textarea {
+  width: 100%;
+  background-color: var(--color-bg-card);
+  color: var(--color-text-head);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-input);
+  padding: var(--space-4) var(--space-5);
+  font-family: var(--font-interface);
+  font-size: var(--text-body);
+  font-weight: 300;
+  outline: none;
+  resize: vertical;
+  min-height: 120px;
+  transition: border-color var(--transition-base);
+}
+
+.add-car-textarea::placeholder {
+  color: var(--color-text-muted);
+}
+
+.add-car-textarea:focus {
+  border-color: var(--color-gold);
+}
+
+.add-car-textarea.input-error {
+  border-color: var(--color-error);
+}
+
+.add-car-select {
+  width: 100%;
+  background-color: var(--color-bg-card);
+  color: var(--color-text-head);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-input);
+  padding: var(--space-4) var(--space-5);
+  font-family: var(--font-interface);
+  font-size: var(--text-body);
+  font-weight: 300;
+  outline: none;
+  cursor: pointer;
+  transition: border-color var(--transition-base);
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23B8A06A' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--space-5) center;
+  padding-right: var(--space-10);
+}
+
+.add-car-select:focus {
+  border-color: var(--color-gold);
+}
+
+.add-car-select.input-error {
+  border-color: var(--color-error);
+}
+
+.add-car-error-text {
+  font-size: 13px;
+  color: var(--color-error);
+  margin-top: var(--space-2);
+}
+
+.add-car-submit-row {
+  margin-top: var(--space-4);
+  display: flex;
+  justify-content: center;
+}
+
+.add-car-submit-btn {
+  min-width: 200px;
+}

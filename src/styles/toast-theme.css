@@ -1,0 +1,52 @@
+:root {
+  --toastify-color-light: var(--color-bg-card);
+  --toastify-color-dark: var(--color-bg-card);
+  --toastify-color-info: var(--color-gold);
+  --toastify-color-success: var(--color-gold);
+  --toastify-color-warning: var(--color-error);
+  --toastify-color-error: var(--color-error);
+  --toastify-color-progress-light: var(--color-gold);
+  --toastify-color-progress-dark: var(--color-gold);
+
+  --toastify-text-color-light: var(--color-text-head);
+  --toastify-text-color-dark: var(--color-text-head);
+
+  --toastify-font-family: var(--font-interface);
+
+  --toastify-toast-width: 380px;
+  --toastify-toast-min-height: 56px;
+  --toastify-toast-bd-radius: var(--radius-card);
+}
+
+.Toastify__toast {
+  background-color: var(--color-bg-card) !important;
+  border: 1px solid var(--color-border);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  font-size: var(--text-body);
+}
+
+.Toastify__toast--success {
+  border-color: var(--color-gold);
+}
+
+.Toastify__toast--error {
+  border-color: var(--color-error);
+}
+
+.Toastify__close-button {
+  color: var(--color-text-muted);
+  opacity: 0.7;
+}
+
+.Toastify__close-button:hover {
+  opacity: 1;
+  color: var(--color-text-head);
+}
+
+.Toastify__progress-bar--success {
+  background: var(--color-gold);
+}
+
+.Toastify__progress-bar--error {
+  background: var(--color-error);
+}
