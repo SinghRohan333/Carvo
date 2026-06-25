@@ -27,3 +27,16 @@ export const addCar = async (formData) => {
   const data = await res.json();
   return data;
 };
+
+export const updateAddedCar = async (formData, editingCar, userId) => {
+  const res = await fetch(`${BASE_URL}/cars/${editingCar._id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ ...formData, ownerId: userId }),
+  });
+  if (!res.ok) {
+    throw new Error("Failed to update Cars!");
+  }
+  const data = await res.json();
+  return data;
+};
