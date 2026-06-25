@@ -8,7 +8,7 @@ import EditCarModal from "./EditCarModal";
 import DeleteConfirmModal from "./DeleteConfirmModal";
 import "@/styles/my-added-cars.css";
 import Link from "next/link";
-import { updateAddedCar } from "@/lib/action";
+import { deleteAddedCar, updateAddedCar } from "@/lib/action";
 
 // TODO: replace with your actual Express base URL (env var recommended)
 // const API_BASE_URL = "YOUR_EXPRESS_API_URL";
@@ -50,27 +50,23 @@ export default function MyAddedCarsClient({ initialCars, userId }) {
 
   const handleConfirmDelete = async () => {
     setIsDeleting(true);
-    // try {
-    //   const res = await fetch(`${API_BASE_URL}/cars/${deletingCar._id}`, {
-    //     method: "DELETE",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify({ ownerId: userId }),
-    //   });
-    //   const result = await res.json();
+    try {
+      const result = await deleteAddedCar(deletingCar, userId);
 
-    //   if (!result.success) {
-    //     throw new Error(result.message || "Failed to delete car");
-    //   }
-
-    //   toast.success(result.message || "Car deleted successfully");
-    //   setCars((prev) => prev.filter((c) => c._id !== deletingCar._id));
-    //   setDeletingCar(null);
-    // } catch (err) {
-    //   console.error(err);
-    //   toast.error("Something went wrong — please try again");
-    // } finally {
-    //   setIsDeleting(false);
-    // }
+      if (!result.success) {
+        toast.error(result.message || "Failed to delete car");
+      }
+      if (result.success) {
+        toast.success(result.message || "Car deleted successfully");
+        setCars((prev) => prev.filter((c) => c._id !== deletingCar._id));
+        setDeletingCar(null);
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Something went wrong — please try again");
+    } finally {
+      setIsDeleting(false);
+    }
   };
 
   return (

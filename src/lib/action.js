@@ -40,3 +40,16 @@ export const updateAddedCar = async (formData, editingCar, userId) => {
   const data = await res.json();
   return data;
 };
+
+export const deleteAddedCar = async (deletingCar, userId) => {
+  const res = await fetch(`${BASE_URL}/cars/${deletingCar._id}`, {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ ownerId: userId }),
+  });
+  if (!res.ok) {
+    throw new Error("Failed to delete data");
+  }
+  const data = await res.json();
+  return data;
+};
