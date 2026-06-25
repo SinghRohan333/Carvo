@@ -500,7 +500,7 @@ export default function CarDetailsClient({ car }) {
               {/* Description */}
               <motion.div
                 variants={itemVariants}
-                style={{ marginBottom: "36px" }}
+                style={{ marginBottom: "28px" }}
               >
                 <p
                   style={{
@@ -526,6 +526,35 @@ export default function CarDetailsClient({ car }) {
                 >
                   {car.description}
                 </p>
+              </motion.div>
+
+              {/* booked $inc */}
+              <motion.div
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, ease: "easeOut", delay: 0.2 }}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  marginBottom: "28px",
+                }}
+              >
+                <svg
+                  width="15"
+                  height="15"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="var(--color-gold)"
+                  strokeWidth="1.8"
+                >
+                  <path d="M9 11l3 3L22 4" />
+                  <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+                </svg>
+                <span className="text-body" style={{ fontSize: "13px" }}>
+                  Booked {car.booking_count || 0}{" "}
+                  {car.booking_count === 1 ? "time" : "times"}
+                </span>
               </motion.div>
 
               {/* Book Now button */}

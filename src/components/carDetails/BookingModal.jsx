@@ -2,6 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { authClient } from "@/lib/auth-client";
+import { bookingCar } from "@/lib/action";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 // ── Toast ─────────────────────────────────────────────────────────────
 function Toast({ message, onDone }) {
@@ -96,6 +100,11 @@ export default function BookingModal({ car, isOpen, onClose }) {
   const [submitting, setSubmitting] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [numberOfDays, setNumberOfDays] = useState(1);
+  const router = useRouter();
+
+  const { data: session } = authClient.useSession();
+  const user = session?.user;
 
   // Lock body scroll
   useEffect(() => {
@@ -111,6 +120,7 @@ export default function BookingModal({ car, isOpen, onClose }) {
       setTimeout(() => {
         setDriverNeeded("no");
         setSpecialNote("");
+        setNumberOfDays(1);
         setSubmitting(false);
         setSubmitted(false);
       }, 300);
@@ -118,25 +128,36 @@ export default function BookingModal({ car, isOpen, onClose }) {
   }, [isOpen]);
 
   const handleSubmit = async () => {
+    if (!user?.id) {
+      return;
+    }
+
     setSubmitting(true);
 
-    const bookingData = {
-      carId: car._id,
-      carName: car.carName,
-      dailyPrice: car.dailyRentPrice,
-      driverNeeded: driverNeeded === "yes",
-      specialNote: specialNote.trim(),
-    };
+    try {
+      const result = await bookingCar(
+        car,
+        user,
+        driverNeeded,
+        specialNote,
+        numberOfDays,
+      );
 
-    // Mock for now — Phase 5 wires real API
-    console.log("Booking data:", bookingData);
-    await new Promise((r) => setTimeout(r, 800));
-
-    setSubmitting(false);
-    setSubmitted(true);
-    setShowToast(true);
-
-    setTimeout(() => onClose(), 1200);
+      if (!result.success) {
+        toast.error(result.message || "Failed to create booking");
+        return;
+      }
+      if (result.success) {
+        setSubmitted(true);
+        setShowToast(true);
+        setTimeout(() => onClose(), 1200);
+        router.push("/my-bookings");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Something went wrong — please try again");
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -337,6 +358,34 @@ export default function BookingModal({ car, isOpen, onClose }) {
                   </div>
                 </div>
 
+                {/* Number of Days */}
+                <div style={{ marginBottom: "28px" }}>
+                  <label
+                    style={{
+                      display: "block",
+                      fontFamily: "var(--font-interface)",
+                      fontSize: "11px",
+                      fontWeight: "500",
+                      letterSpacing: "0.14em",
+                      textTransform: "uppercase",
+                      color: "var(--color-gold)",
+                      marginBottom: "12px",
+                    }}
+                  >
+                    Number of Days
+                  </label>
+                  <input
+                    type="number"
+                    min={1}
+                    value={numberOfDays}
+                    onChange={(e) =>
+                      setNumberOfDays(Math.max(1, Number(e.target.value) || 1))
+                    }
+                    className="input-carvo"
+                    style={{ width: "100%" }}
+                  />
+                </div>
+
                 {/* Special Note */}
                 <div style={{ marginBottom: "28px" }}>
                   <label
@@ -405,45 +454,55 @@ export default function BookingModal({ car, isOpen, onClose }) {
                 />
 
                 {/* Price summary */}
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    marginBottom: "20px",
-                  }}
-                >
-                  <span
+                <div style={{ marginBottom: "20px" }}>
+                  <div
                     style={{
-                      fontFamily: "var(--font-interface)",
-                      fontSize: "13px",
-                      fontWeight: "300",
-                      color: "var(--color-text-muted)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      marginBottom: "8px",
                     }}
                   >
-                    Daily rate
-                  </span>
-                  <span
-                    style={{
-                      fontFamily: "var(--font-display)",
-                      fontSize: "24px",
-                      fontWeight: "400",
-                      color: "var(--color-gold)",
-                    }}
-                  >
-                    ${car.dailyRentPrice}
                     <span
                       style={{
                         fontFamily: "var(--font-interface)",
-                        fontSize: "12px",
+                        fontSize: "13px",
                         fontWeight: "300",
                         color: "var(--color-text-muted)",
-                        marginLeft: "4px",
                       }}
                     >
-                      / day
+                      ${car.dailyRentPrice}/day × {numberOfDays}{" "}
+                      {numberOfDays === 1 ? "day" : "days"}
                     </span>
-                  </span>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontFamily: "var(--font-interface)",
+                        fontSize: "13px",
+                        fontWeight: "300",
+                        color: "var(--color-text-muted)",
+                      }}
+                    >
+                      Total
+                    </span>
+                    <span
+                      style={{
+                        fontFamily: "var(--font-display)",
+                        fontSize: "24px",
+                        fontWeight: "400",
+                        color: "var(--color-gold)",
+                      }}
+                    >
+                      ${car.dailyRentPrice * numberOfDays}
+                    </span>
+                  </div>
                 </div>
 
                 {/* Submit button */}

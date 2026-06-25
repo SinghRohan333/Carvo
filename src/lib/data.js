@@ -44,3 +44,14 @@ export const getMyAddedCars = async (ownerId) => {
   const data = await res.json();
   return data;
 };
+
+export const getMyBookings = async (ownerId) => {
+  const res = await fetch(`${BASE_URL}/bookings/my?ownerId=${ownerId}`, {
+    cache: "no-store",
+  });
+  if (!res.ok) {
+    throw new Error("Failed to fetch user bookings data");
+  }
+  const data = await res.json();
+  return data;
+};

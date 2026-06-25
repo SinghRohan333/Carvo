@@ -1,0 +1,183 @@
+.my-bookings-shell {
+  width: 100%;
+  min-height: calc(100vh - var(--navbar-height));
+  padding: var(--space-20) 0;
+}
+
+.my-bookings-header {
+  text-align: center;
+  margin-bottom: var(--space-12);
+}
+
+.my-bookings-table-wrap {
+  background-color: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+}
+
+.my-bookings-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.my-bookings-table thead th {
+  text-align: left;
+  font-family: var(--font-interface);
+  font-size: var(--text-caption);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  padding: var(--space-5) var(--space-6);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.my-bookings-table tbody td {
+  padding: var(--space-5) var(--space-6);
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text-body);
+  font-size: var(--text-body);
+}
+
+.my-bookings-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.my-bookings-table tbody tr:hover {
+  background-color: rgba(var(--color-gold-raw), 0.04);
+}
+
+.booking-car-name {
+  color: var(--color-text-head);
+  font-weight: 500;
+}
+
+.booking-total-price {
+  font-family: var(--font-display);
+  color: var(--color-gold);
+  font-size: 17px;
+}
+
+.booking-status-badge {
+  display: inline-flex;
+  align-items: center;
+  background-color: rgba(184, 160, 106, 0.12);
+  color: var(--color-gold);
+  border: 1px solid rgba(184, 160, 106, 0.3);
+  border-radius: 4px;
+  padding: 2px var(--space-3);
+  font-size: var(--text-caption);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.my-bookings-empty-state {
+  text-align: center;
+  padding: var(--space-20) var(--space-6);
+}
+
+.booking-detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.booking-detail-row:last-child {
+  border-bottom: none;
+}
+
+.booking-detail-label {
+  font-size: var(--text-caption);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.booking-detail-value {
+  color: var(--color-text-head);
+  font-size: var(--text-body);
+  text-align: right;
+}
+
+.booking-detail-image {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  border-radius: var(--radius-card);
+  margin-bottom: var(--space-6);
+}
+
+.booking-note-block {
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-input);
+  padding: var(--space-4);
+  margin-top: var(--space-2);
+  color: var(--color-text-body);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.my-bookings-actions-cell {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+/* ============================================
+   MOBILE — collapse table into stacked cards
+   ============================================ */
+
+@media (max-width: 767px) {
+  .my-bookings-table-wrap {
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+  }
+
+  .my-bookings-table thead {
+    display: none;
+  }
+
+  .my-bookings-table,
+  .my-bookings-table tbody,
+  .my-bookings-table tr,
+  .my-bookings-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .my-bookings-table tr {
+    background-color: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    margin-bottom: var(--space-5);
+    padding: var(--space-5);
+  }
+
+  .my-bookings-table tbody tr:hover {
+    background-color: var(--color-bg-card);
+  }
+
+  .my-bookings-table td {
+    border-bottom: none;
+    padding: var(--space-2) 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .my-bookings-table td::before {
+    content: attr(data-label);
+    font-size: var(--text-caption);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+}

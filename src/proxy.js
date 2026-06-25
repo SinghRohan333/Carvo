@@ -3,7 +3,7 @@ import { auth } from "./lib/auth";
 import { headers } from "next/headers";
 
 const authRoutes = ["/login", "/register"];
-const protectedRoutes = ["/add-car", "/my-added-cars"];
+const protectedRoutes = ["/add-car", "/my-added-cars", "/my-bookings"];
 
 export async function proxy(request) {
   const { pathname } = request.nextUrl;
@@ -43,5 +43,6 @@ export const config = {
     "/add-car",
     "/explore-cars/:path*",
     "/my-added-cars",
+    "/my-bookings",
   ],
 };

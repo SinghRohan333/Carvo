@@ -53,3 +53,41 @@ export const deleteAddedCar = async (deletingCar, userId) => {
   const data = await res.json();
   return data;
 };
+
+export const bookingCar = async (
+  car,
+  user,
+  driverNeeded,
+  specialNote,
+  numberOfDays,
+) => {
+  const res = await fetch(`${BASE_URL}/bookings`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      carId: car._id,
+      ownerId: user.id,
+      driverNeeded: driverNeeded === "yes",
+      specialNote: specialNote.trim(),
+      numberOfDays,
+    }),
+  });
+  if (!res.ok) {
+    throw new Error("Failed to book car");
+  }
+  const data = await res.json();
+  return data;
+};
+
+export const cancelMyBookings = async (cancellingBooking, userId) => {
+  const res = await fetch(`${BASE_URL}/bookings/${cancellingBooking._id}`, {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ ownerId: userId }),
+  });
+  if (!res.ok) {
+    throw new Error("Failed to delete booked car");
+  }
+  const data = await res.json();
+  return data;
+};

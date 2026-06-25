@@ -55,6 +55,7 @@ export default function MyAddedCarsClient({ initialCars, userId }) {
 
       if (!result.success) {
         toast.error(result.message || "Failed to delete car");
+        return;
       }
       if (result.success) {
         toast.success(result.message || "Car deleted successfully");
