@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
 import "@/styles/add-car.css";
+import { authClient } from "@/lib/auth-client";
+import { addCar } from "@/lib/action";
 
 const CAR_TYPES = [
   "Sedan",
@@ -32,6 +34,9 @@ export default function AddCarForm() {
   const [formData, setFormData] = useState(INITIAL_FORM);
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const { data: session } = authClient.useSession();
+  const user = session?.user;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -94,6 +99,12 @@ export default function AddCarForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!user?.id) {
+      toast.error("You must be logged in to add a car");
+      return;
+    }
+
     const validationErrors = validate();
     setErrors(validationErrors);
     if (Object.keys(validationErrors).length > 0) {
@@ -104,26 +115,23 @@ export default function AddCarForm() {
     setIsSubmitting(true);
 
     try {
-      // TODO: replace with the real POST endpoint once the backend route exists
-      // const res = await fetch("/api/cars", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify({
-      //     ...formData,
-      //     dailyRentPrice: Number(formData.dailyRentPrice),
-      //     seatCapacity: Number(formData.seatCapacity),
-      //   }),
-      // });
-      // if (!res.ok) throw new Error("Failed to add car");
+      const result = await addCar(formData);
 
-      console.log("Add car submitted:", formData);
+      if (!result.success) {
+        toast.error(result.message || "Failed to add car");
+        return;
+      }
+
+      // console.log("Add car submitted:", formData);
       await new Promise((resolve) => setTimeout(resolve, 1200));
 
-      toast.success("Car added successfully");
-      setFormData(INITIAL_FORM);
-      setTimeout(() => {
-        router.push("/my-added-cars");
-      }, 800);
+      if (result.success) {
+        toast.success(result.message || "Car added successfully");
+        setFormData(INITIAL_FORM);
+        setTimeout(() => {
+          router.push("/my-added-cars");
+        }, 800);
+      }
     } catch (err) {
       console.error(err);
       toast.error("Something went wrong — please try again");

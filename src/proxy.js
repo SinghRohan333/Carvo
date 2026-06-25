@@ -3,7 +3,7 @@ import { auth } from "./lib/auth";
 import { headers } from "next/headers";
 
 const authRoutes = ["/login", "/register"];
-const protectedRoutes = ["/add-car"];
+const protectedRoutes = ["/add-car", "/my-added-cars"];
 
 export async function proxy(request) {
   const { pathname } = request.nextUrl;
@@ -37,5 +37,11 @@ export async function proxy(request) {
 // export default function proxy(request) { ... }
 
 export const config = {
-  matcher: ["/login", "/register", "/add-car", "/explore-cars/:path*"],
+  matcher: [
+    "/login",
+    "/register",
+    "/add-car",
+    "/explore-cars/:path*",
+    "/my-added-cars",
+  ],
 };
