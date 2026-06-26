@@ -100,7 +100,7 @@ export default function LoginForm() {
       return;
     }
     if (data) {
-      toast.success("Login successful! Welcome back to CARVÕ");
+      // toast.success("Login successful! Welcome back to CARVÕ");
       setIsGoogleLoading(false);
     }
   };

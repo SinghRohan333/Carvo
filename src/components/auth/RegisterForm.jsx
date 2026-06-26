@@ -109,9 +109,21 @@ export default function RegisterForm() {
     }
   };
 
-  const handleGoogleRegister = () => {
-    // TODO: wire up BetterAuth Google OAuth once Phase 1 is built
-    console.log("Google register clicked");
+  const handleGoogleLogin = async () => {
+    setIsGoogleLoading(true);
+    const { data, error } = await authClient.signIn.social({
+      provider: "google",
+      callbackURL: "/",
+    });
+    if (error) {
+      toast.error(error.message || "Google login failed. Please try again.");
+      setIsGoogleLoading(false);
+      return;
+    }
+    if (data) {
+      // toast.success("Login successful! Welcome back to CARVÕ");
+      setIsGoogleLoading(false);
+    }
   };
 
   const isValidPhotoURL = (() => {
@@ -328,7 +340,7 @@ export default function RegisterForm() {
           <AuthDivider />
 
           <GoogleAuthButton
-            onClick={handleGoogleRegister}
+            onClick={handleGoogleLogin}
             label="Continue with Google"
           />
         </form>
