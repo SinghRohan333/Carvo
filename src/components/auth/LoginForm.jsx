@@ -9,13 +9,11 @@ import GoogleAuthButton from "./GoogleAuthButton";
 import PasswordInput from "./PasswordInput";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const router = useRouter();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -72,7 +70,20 @@ export default function LoginForm() {
       });
       setErrors({});
       setIsSubmitting(false);
-      router.push("/");
+      // Now poll for session confirmation, then navigate.
+      const waitForSession = async () => {
+        for (let attempt = 0; attempt < 10; attempt++) {
+          const sessionCheck = await authClient.getSession();
+          if (sessionCheck?.data?.user) {
+            window.location.href = "/";
+            return;
+          }
+          await new Promise((resolve) => setTimeout(resolve, 200));
+        }
+        window.location.href = "/";
+      };
+
+      waitForSession();
     }
   };
 
