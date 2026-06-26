@@ -23,7 +23,7 @@ Users can browse a curated fleet, list their own vehicles, manage their listings
 
 This is the **frontend** repository, built with Next.js App Router. It talks to the [CARVÕ Server](#) for car and booking data — see that repository for the backend/API details.
 
-> 🔗 **Live Demo:** _Coming soon — deployment in progress._
+> 🔗 **Live Demo:** [carvo-kappa.vercel.app](https://carvo-kappa.vercel.app)
 
 ---
 
@@ -64,14 +64,14 @@ This is the **frontend** repository, built with Next.js App Router. It talks to 
 
 CARVÕ's visual identity — **Obsidian & Champagne Gold** — is built entirely from custom CSS variables rather than a third-party design system, aiming for an editorial, premium feel.
 
-| Element | Choice |
-|---|---|
-| **Display typeface** | Cormorant Garamond (headlines, italic accents) |
-| **Interface typeface** | DM Sans (body text, UI) |
-| **Signature motif** | A gold hairline rule — used purposefully on dividers, active states, and hover borders |
-| **Dark mode** | "Obsidian Night" — near-black backgrounds, champagne gold accents |
-| **Light mode** | "Alabaster Day" — warm off-white backgrounds, same gold accent for continuity |
-| **Motion** | Framer Motion throughout — consistent page-entry fades, modal scale-ins, button press feedback |
+| Element                | Choice                                                                                         |
+| ---------------------- | ---------------------------------------------------------------------------------------------- |
+| **Display typeface**   | Cormorant Garamond (headlines, italic accents)                                                 |
+| **Interface typeface** | DM Sans (body text, UI)                                                                        |
+| **Signature motif**    | A gold hairline rule — used purposefully on dividers, active states, and hover borders         |
+| **Dark mode**          | "Obsidian Night" — near-black backgrounds, champagne gold accents                              |
+| **Light mode**         | "Alabaster Day" — warm off-white backgrounds, same gold accent for continuity                  |
+| **Motion**             | Framer Motion throughout — consistent page-entry fades, modal scale-ins, button press feedback |
 
 Theming is controlled via a `data-theme` attribute on `<html>`, with all colors, spacing, and typography defined as CSS custom properties in `globals.css`.
 
@@ -79,18 +79,18 @@ Theming is controlled via a `data-theme` attribute on `<html>`, with all colors,
 
 ## Tech Stack
 
-| Category | Technology |
-|---|---|
-| **Framework** | Next.js 16 (App Router) |
-| **UI Library** | React 19 |
-| **Styling** | Tailwind CSS 4 + custom CSS (CSS variables, plain stylesheets in `src/styles`) |
-| **Component Library** | HeroUI |
-| **Animation** | Framer Motion |
-| **Authentication** | BetterAuth (with MongoDB adapter) |
-| **Database (auth)** | MongoDB (native driver) |
-| **Notifications** | react-toastify |
-| **Icons** | Inline SVGs (no icon library dependency in production) |
-| **Fonts** | Cormorant Garamond + DM Sans, via `next/font/google` |
+| Category              | Technology                                                                     |
+| --------------------- | ------------------------------------------------------------------------------ |
+| **Framework**         | Next.js 16 (App Router)                                                        |
+| **UI Library**        | React 19                                                                       |
+| **Styling**           | Tailwind CSS 4 + custom CSS (CSS variables, plain stylesheets in `src/styles`) |
+| **Component Library** | HeroUI                                                                         |
+| **Animation**         | Framer Motion                                                                  |
+| **Authentication**    | BetterAuth (with MongoDB adapter)                                              |
+| **Database (auth)**   | MongoDB (native driver)                                                        |
+| **Notifications**     | react-toastify                                                                 |
+| **Icons**             | Inline SVGs (no icon library dependency in production)                         |
+| **Fonts**             | Cormorant Garamond + DM Sans, via `next/font/google`                           |
 
 ---
 
@@ -122,16 +122,16 @@ src/
 
 ## Pages & Routes
 
-| Route | Access | Description |
-|---|---|---|
-| `/` | Public | Home — hero section, featured cars |
-| `/explore-cars` | Public | Browse and filter the full fleet |
-| `/cars/:id` | Private | Car details + booking |
-| `/login` | Public | Sign in |
-| `/register` | Public | Create an account |
-| `/add-car` | Private | List a new vehicle |
-| `/my-added-cars` | Private | Manage your own listings |
-| `/my-bookings` | Private | View and cancel your bookings |
+| Route            | Access  | Description                        |
+| ---------------- | ------- | ---------------------------------- |
+| `/`              | Public  | Home — hero section, featured cars |
+| `/explore-cars`  | Public  | Browse and filter the full fleet   |
+| `/cars/:id`      | Private | Car details + booking              |
+| `/login`         | Public  | Sign in                            |
+| `/register`      | Public  | Create an account                  |
+| `/add-car`       | Private | List a new vehicle                 |
+| `/my-added-cars` | Private | Manage your own listings           |
+| `/my-bookings`   | Private | View and cancel your bookings      |
 
 > Private routes redirect to `/login` if there is no active session.
 
@@ -148,12 +148,12 @@ BETTER_AUTH_URL=
 MONGODB_URI=
 ```
 
-| Variable | Description |
-|---|---|
-| `NEXT_PUBLIC_API_URL` | Base URL of the CARVÕ Server (Express API) |
-| `BETTER_AUTH_SECRET` | Secret key used by BetterAuth to sign sessions |
-| `BETTER_AUTH_URL` | Base URL of this frontend app, used by BetterAuth |
-| `MONGODB_URI` | MongoDB connection string — BetterAuth connects directly to the same database used by the backend |
+| Variable              | Description                                                                                       |
+| --------------------- | ------------------------------------------------------------------------------------------------- |
+| `NEXT_PUBLIC_API_URL` | Base URL of the CARVÕ Server (Express API)                                                        |
+| `BETTER_AUTH_SECRET`  | Secret key used by BetterAuth to sign sessions                                                    |
+| `BETTER_AUTH_URL`     | Base URL of this frontend app, used by BetterAuth                                                 |
+| `MONGODB_URI`         | MongoDB connection string — BetterAuth connects directly to the same database used by the backend |
 
 > Never commit your actual `.env` file. This table documents variable **names** only.
 
@@ -164,7 +164,7 @@ MONGODB_URI=
 ### Prerequisites
 
 - Node.js (compatible with Next.js 16)
-- A MongoDB instance (the same one used by [CARVÕ Server](#))
+- A MongoDB instance (the same one used by [CARVÕ Server](https://github.com/SinghRohan333/server-carvo))
 - The CARVÕ Server running (locally or deployed) for car/booking data
 
 ### Installation
@@ -203,7 +203,9 @@ Requests to the backend that require identifying the current user include a veri
 
 This frontend depends on the **CARVÕ Server** for all car and booking data.
 
-🔗 **Server repository:** [link to your server repo here]
+🔗 **Server repository:** [CARVÕ Server](https://github.com/SinghRohan333/server-carvo)
+
+🔗 **Live API:** [carvo-server.vercel.app](https://server-carvo.vercel.app)
 
 Make sure the server is running and `NEXT_PUBLIC_API_URL` points to it before using any car or booking features.
 
@@ -213,7 +215,6 @@ Make sure the server is running and `NEXT_PUBLIC_API_URL` points to it before us
 
 This is an actively developed solo project. A few things are intentionally incomplete or deferred:
 
-- **Deployment pending.** Currently runs locally; a Vercel deployment is planned.
 - **Booking status is static** on the backend — see the server README for details.
 
 Documenting these openly here rather than leaving them as silent gaps.
