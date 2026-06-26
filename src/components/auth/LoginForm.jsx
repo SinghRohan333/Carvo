@@ -14,6 +14,7 @@ export default function LoginForm() {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -87,9 +88,21 @@ export default function LoginForm() {
     }
   };
 
-  const handleGoogleLogin = () => {
-    // TODO: wire up BetterAuth Google OAuth once Phase 1 is built
-    console.log("Google login clicked");
+  const handleGoogleLogin = async () => {
+    setIsGoogleLoading(true);
+    const { data, error } = await authClient.signIn.social({
+      provider: "google",
+      callbackURL: "/",
+    });
+    if (error) {
+      toast.error(error.message || "Google login failed. Please try again.");
+      setIsGoogleLoading(false);
+      return;
+    }
+    if (data) {
+      toast.success("Login successful! Welcome back to CARVÕ");
+      setIsGoogleLoading(false);
+    }
   };
 
   return (
@@ -191,7 +204,10 @@ export default function LoginForm() {
 
           <AuthDivider />
 
-          <GoogleAuthButton onClick={handleGoogleLogin} />
+          <GoogleAuthButton
+            onClick={handleGoogleLogin}
+            isGoogleLoading={isGoogleLoading}
+          />
         </form>
 
         <p

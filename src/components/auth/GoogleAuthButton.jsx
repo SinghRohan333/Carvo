@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 export default function GoogleAuthButton({
   onClick,
   label = "Continue with Google",
+  isGoogleLoading,
 }) {
   return (
     <motion.button
@@ -12,6 +13,7 @@ export default function GoogleAuthButton({
       onClick={onClick}
       className="btn-google"
       whileTap={{ scale: 0.97 }}
+      disabled={isGoogleLoading}
     >
       <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
         <path
@@ -31,7 +33,7 @@ export default function GoogleAuthButton({
           fill="#EA4335"
         />
       </svg>
-      <span>{label}</span>
+      <span>{isGoogleLoading ? "Connecting..." : label}</span>
     </motion.button>
   );
 }
