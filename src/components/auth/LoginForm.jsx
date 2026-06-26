@@ -59,6 +59,7 @@ export default function LoginForm() {
 
     if (error) {
       toast.error(error?.message || "Login Failed!. Please try again.");
+      setIsSubmitting(false);
       return;
     }
     if (data) {

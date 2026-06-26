@@ -25,7 +25,7 @@ const columnVariants = {
 // ── Data ──────────────────────────────────────────────────────────────
 const navLinks = [
   { label: "Home", href: "/" },
-  { label: "Explore Cars", href: "/explore" },
+  { label: "Explore Cars", href: "/explore-cars" },
   { label: "Add Car", href: "/add-car" },
   { label: "My Bookings", href: "/my-bookings" },
   { label: "My Added Cars", href: "/my-added-cars" },
