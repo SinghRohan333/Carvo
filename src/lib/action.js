@@ -6,6 +6,9 @@ import { auth } from "./auth";
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
 export const addCar = async (formData) => {
+  const { token } = await auth.api.getToken({
+    headers: await headers(),
+  });
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -13,7 +16,10 @@ export const addCar = async (formData) => {
 
   const res = await fetch(`${BASE_URL}/cars`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${token}`,
+    },
     body: JSON.stringify({
       ...formData,
       dailyRentPrice: Number(formData.dailyRentPrice),
@@ -29,9 +35,15 @@ export const addCar = async (formData) => {
 };
 
 export const updateAddedCar = async (formData, editingCar, userId) => {
+  const { token } = await auth.api.getToken({
+    headers: await headers(),
+  });
   const res = await fetch(`${BASE_URL}/cars/${editingCar._id}`, {
     method: "PATCH",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${token}`,
+    },
     body: JSON.stringify({ ...formData, ownerId: userId }),
   });
   if (!res.ok) {
@@ -42,9 +54,15 @@ export const updateAddedCar = async (formData, editingCar, userId) => {
 };
 
 export const deleteAddedCar = async (deletingCar, userId) => {
+  const { token } = await auth.api.getToken({
+    headers: await headers(),
+  });
   const res = await fetch(`${BASE_URL}/cars/${deletingCar._id}`, {
     method: "DELETE",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${token}`,
+    },
     body: JSON.stringify({ ownerId: userId }),
   });
   if (!res.ok) {
@@ -61,9 +79,15 @@ export const bookingCar = async (
   specialNote,
   numberOfDays,
 ) => {
+  const { token } = await auth.api.getToken({
+    headers: await headers(),
+  });
   const res = await fetch(`${BASE_URL}/bookings`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${token}`,
+    },
     body: JSON.stringify({
       carId: car._id,
       ownerId: user.id,
@@ -80,9 +104,15 @@ export const bookingCar = async (
 };
 
 export const cancelMyBookings = async (cancellingBooking, userId) => {
+  const { token } = await auth.api.getToken({
+    headers: await headers(),
+  });
   const res = await fetch(`${BASE_URL}/bookings/${cancellingBooking._id}`, {
     method: "DELETE",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${token}`,
+    },
     body: JSON.stringify({ ownerId: userId }),
   });
   if (!res.ok) {

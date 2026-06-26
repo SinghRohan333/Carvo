@@ -10,9 +10,6 @@ import "@/styles/my-added-cars.css";
 import Link from "next/link";
 import { deleteAddedCar, updateAddedCar } from "@/lib/action";
 
-// TODO: replace with your actual Express base URL (env var recommended)
-// const API_BASE_URL = "YOUR_EXPRESS_API_URL";
-
 export default function MyAddedCarsClient({ initialCars, userId }) {
   const [cars, setCars] = useState(initialCars?.data);
 
