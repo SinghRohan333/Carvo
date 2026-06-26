@@ -19,6 +19,7 @@ export default function RegisterForm() {
   });
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -342,6 +343,7 @@ export default function RegisterForm() {
           <GoogleAuthButton
             onClick={handleGoogleLogin}
             label="Continue with Google"
+            isGoogleLoading={isGoogleLoading}
           />
         </form>
 
