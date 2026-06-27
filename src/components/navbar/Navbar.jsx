@@ -154,7 +154,7 @@ export default function Navbar() {
   const handleLogout = async () => {
     await authClient.signOut();
     toast.success("You have been logged out");
-    router.push("/");
+    window.location.href = "/login";
   };
   return (
     <>
